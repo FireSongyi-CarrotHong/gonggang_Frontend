@@ -12,6 +12,18 @@ npm run dev
 
 [http://localhost:3000](http://localhost:3000)에서 서버가 열립니다.
 
+## 빌드
+
+```bash
+npm run build
+```
+
+## lint
+
+```bash
+npm run lint
+```
+
 <br/>
 
 ## 구조 설계
@@ -19,6 +31,7 @@ npm run dev
 > [Next.js + Typescript + Styled-components 쉽게 구축하기](https://velog.io/@danmin20/Next.js-Typescript-Styled-component-%EC%89%BD%EA%B2%8C-%EA%B5%AC%EC%B6%95%ED%95%98%EA%B8%B0)의 구조 설계를 참고하였습니다.
 
 - components: 컴포넌트를 개발하는 곳입니다.<br/>
+- hook: 커스텀 훅을 개발하는 곳입니다.<br/>
 - pages: 라우팅 페이지 작성 하는 곳입니다. <br/>
 - shared: utils, interface 등을 모아두는 곳입니다.<br/>
 - styles: 스타일 관련된 설정을 저장하는 곳입니다.<br/>
