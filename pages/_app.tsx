@@ -4,19 +4,26 @@ import { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from '../styles/global-style';
 import { theme } from '../styles/theme';
 
+declare global {
+	interface Window {
+		Kakao: any;
+	}
+}
+
 function MyApp({ Component, pageProps }: AppProps) {
-  return (
-    <>
-      <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>공강찾기</title>
-      </Head>
-      <GlobalStyle />
-      <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
-      </ThemeProvider>
-    </>
-  );
+	return (
+		<>
+			<Head>
+				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				<title>공강찾기</title>
+			</Head>
+			<GlobalStyle />
+			<ThemeProvider theme={theme}>
+				<Component {...pageProps} />
+				<div>동작하나?</div>
+			</ThemeProvider>
+		</>
+	);
 }
 
 export default MyApp;
