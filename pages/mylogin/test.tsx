@@ -1,7 +1,7 @@
-function text() {
+function test() {
 	return (
-		<div>text</div>
+		<div>test page</div>
 	)
 }
 
-export default text
+export default test

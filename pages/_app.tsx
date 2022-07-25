@@ -4,12 +4,6 @@ import { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from '../styles/global-style';
 import { theme } from '../styles/theme';
 
-declare global {
-	interface Window {
-		Kakao: any;
-	}
-}
-
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
 		<>
