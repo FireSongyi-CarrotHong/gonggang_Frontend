@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from '../styles/global-style';
 import { theme } from '../styles/theme';
+import wrapper from '../stores';
 
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
@@ -20,4 +21,4 @@ function MyApp({ Component, pageProps }: AppProps) {
 	);
 }
 
-export default MyApp;
+export default wrapper.withRedux(MyApp);
