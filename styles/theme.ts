@@ -17,12 +17,11 @@ export const theme: DefaultTheme = {
   },
   boxShadow: {
     onButton: {
-      default: '0px 3px 2px rgba(21, 16, 83, 0.6',
+      default: '0px 3px 2px rgba(21, 16, 83, 0.6)',
       push: 'inset 0px 3px 2px rgba(21, 16, 83, 0.6)',
     },
     offButton: {
       default: '0px 3px 2px rgba(186, 181, 201, 0.98)',
-      push: 'inset 0px 3px 2px rgba(186, 181, 201, 0.98)',
     },
     modal: '0px 2px 5px 2px rgba(0, 0, 0, 0.25)',
   },

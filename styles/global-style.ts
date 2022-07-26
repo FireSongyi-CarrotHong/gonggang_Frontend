@@ -3,6 +3,7 @@ import { reset } from 'styled-reset';
 
 export const GlobalStyle = createGlobalStyle`
     ${reset}
+    box-sizing: border-box;
     :focus {
         outline: none;
         border: none;
