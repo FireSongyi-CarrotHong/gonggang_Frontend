@@ -4,7 +4,6 @@ import { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from '../styles/global-style';
 import theme from '../styles/theme';
 import wrapper from '../stores';
-import BigModal from '../components/moleculses/bigModal';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -16,7 +15,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ThemeProvider theme={theme}>
         <Component {...pageProps} />
         <div>동작하나?</div>
-        <BigModal />
         <GlobalStyle />
       </ThemeProvider>
     </>

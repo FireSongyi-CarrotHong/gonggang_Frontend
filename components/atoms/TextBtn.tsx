@@ -10,6 +10,7 @@ export interface TextBtnProps
 const lightBtnStyled = css`
   background-color: ${({ theme }) => theme.color.lightViolet};
   box-shadow: ${({ theme }) => theme.boxShadow.onButton.default};
+  cursor: pointer;
   &:active {
     box-shadow: ${({ theme }) => theme.boxShadow.onButton.push};
   }
@@ -18,12 +19,12 @@ const lightBtnStyled = css`
 const darkOffBtnStyled = css`
   background-color: ${({ theme }) => theme.color.veryPeri300};
   box-shadow: ${({ theme }) => theme.boxShadow.offButton.default};
-  cursor: default;
 `;
 
 const darkOnBtnStyled = css`
   background-color: ${({ theme }) => theme.color.veryPeri};
   box-shadow: ${({ theme }) => theme.boxShadow.onButton.default};
+  cursor: pointer;
   &:active {
     box-shadow: ${({ theme }) => theme.boxShadow.onButton.push};
   }
