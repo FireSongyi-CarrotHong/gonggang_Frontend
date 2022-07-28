@@ -7,10 +7,9 @@ export interface ModalProps extends BaseLayoutProps {
 }
 
 const ModalBackground = styled.div<Pick<ModalProps, 'active'>>`
-  display: ${({ active }) => (active ? 'block' : 'none')};
+  display: ${({ active }) => (active ? 'flex' : 'none')};
   position: fixed;
   top: 0;
-  display: flex;
   justify-content: center;
   width: 100%;
   height: 100%;
