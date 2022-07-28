@@ -31,4 +31,7 @@ export const GlobalStyle = createGlobalStyle`
             fill: #f2f3f4;
         }
     }
+	input {
+		border: none;
+	}
 `;

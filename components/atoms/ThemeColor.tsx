@@ -6,11 +6,11 @@ export interface ThemeColorProps extends React.ButtonHTMLAttributes<HTMLButtonEl
 	color: keyof DefaultTheme['themeColor'];
 }
 
-interface ColorBtnProps extends ThemeColorProps {
+interface ColorBtnStyleProps extends ThemeColorProps {
 	isClicked: boolean;
 }
 
-const ColorBtn = styled.button<ColorBtnProps>`
+const ColorBtnStyle = styled.button<ColorBtnStyleProps>`
 	${({ theme, color, isClicked }) => css`
 		width: 50px;
 		height: 50px;
@@ -32,5 +32,5 @@ export default function ThemeColor(props: ThemeColorProps) {
 		isClicked ? setIsClicked(false) : setIsClicked(true)
 	}
 
-	return <ColorBtn {...props} onClick={clickColorBtn} isClicked={isClicked} />
+	return <ColorBtnStyle {...props} onClick={clickColorBtn} isClicked={isClicked} />
 }

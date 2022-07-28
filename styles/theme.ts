@@ -5,6 +5,7 @@ const color = {
 	lightViolet: '#AAB6FE',
 	black: '#000000',
 	black600: 'rgba(0, 0, 0, 0.6)',
+	black700: 'rgba(0, 0, 0, 0.7)',
 	gray: '#989898',
 	gray500: 'rgba(152, 152, 152, 0.5)',
 	gray300: '#DCDCDC',
