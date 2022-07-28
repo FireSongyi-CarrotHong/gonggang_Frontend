@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { BaseLayoutProps } from '../../shared/const';
 import TextBtn from '../atoms/TextBtn';
+import { ModalBackground, ModalStyled } from '../atoms/CommonStyled';
 
 export interface BigModalProps extends BaseLayoutProps {
   active: boolean;
@@ -13,35 +14,6 @@ export interface BigModalProps extends BaseLayoutProps {
   leftBtnText: string;
   rightBtnText: string;
 }
-
-const ModalWrapper = styled.div<Pick<BigModalProps, 'active'>>`
-  display: ${({ active }) => (active ? 'block' : 'none')};
-  position: fixed;
-  top: 0;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  padding-top: 100px;
-  background-color: ${({ theme }) => theme.color.black600};
-  z-index: 10;
-  * {
-    cursor: default;
-  }
-`;
-
-const ModalStyled = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 25px;
-  padding-bottom: 40px;
-  width: 440px;
-  height: 520px;
-  background-color: #ffffff;
-  box-shadow: ${({ theme }) => theme.boxShadow.modal};
-  border-radius: 30px;
-`;
 
 const TitleStyled = styled.div`
   line-height: 36.31px;
@@ -57,7 +29,7 @@ const ButtonWrapper = styled.div`
   padding-top: 43px;
 `;
 
-export default function BigModal({
+export default function ModalBig({
   active,
   title,
   contentComponent,
@@ -68,8 +40,8 @@ export default function BigModal({
   ...rest
 }: BigModalProps) {
   return (
-    <ModalWrapper active={active}>
-      <ModalStyled {...rest}>
+    <ModalBackground active={active}>
+      <ModalStyled modalType="big" {...rest}>
         <TitleStyled>{title}</TitleStyled>
         {contentComponent}
         <ButtonWrapper>
@@ -81,6 +53,6 @@ export default function BigModal({
           </TextBtn>
         </ButtonWrapper>
       </ModalStyled>
-    </ModalWrapper>
+    </ModalBackground>
   );
 }
