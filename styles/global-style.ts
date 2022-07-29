@@ -3,7 +3,9 @@ import { reset } from 'styled-reset';
 
 export const GlobalStyle = createGlobalStyle`
     ${reset}
-    box-sizing: border-box;
+    * {
+        box-sizing: border-box;
+    }
     :focus {
         outline: none;
         border: none;
@@ -12,12 +14,10 @@ export const GlobalStyle = createGlobalStyle`
         display: none;
     }
     html{
-        font-size: 11px;
         -webkit-text-size-adjust: none;
         font-family: -apple-system,BlinkMacSystemFont,helvetica,Apple SD Gothic Neo,sans-serif;
 		font-weight: 400;
         font-display: fallback;
-
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
