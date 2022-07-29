@@ -12,6 +12,7 @@ const color = {
 	gray100: '#F4F4F4',
 	gray50: 'rgba(244, 244, 244, 0.5)',
 	red: '#FF8A80',
+	pink: '#FFCDD2',
 } as const;
 
 const themeColor = {

@@ -34,7 +34,7 @@ const TextLimitStyle = styled.div`
 		margin: 10px 0;
 		font-size: 15px;
 		text-align: center;
-		color : ${theme.color.red}
+		color : ${theme.color.pink}
 		`
 	}
 `
