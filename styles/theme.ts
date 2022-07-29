@@ -5,12 +5,14 @@ const color = {
 	lightViolet: '#AAB6FE',
 	black: '#000000',
 	black600: 'rgba(0, 0, 0, 0.6)',
+	black700: 'rgba(0, 0, 0, 0.7)',
 	gray: '#989898',
 	gray500: 'rgba(152, 152, 152, 0.5)',
 	gray300: '#DCDCDC',
 	gray100: '#F4F4F4',
 	gray50: 'rgba(244, 244, 244, 0.5)',
 	red: '#FF8A80',
+	pink: '#FFCDD2',
 } as const;
 
 const themeColor = {

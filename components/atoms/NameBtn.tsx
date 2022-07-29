@@ -1,17 +1,17 @@
 import * as React from 'react';
 import { useState } from 'react';
 import styled, { css, DefaultTheme } from 'styled-components';
-import { BaseProps } from '../../shared/const';
+import { BaseLayoutProps } from '../../shared/const';
 
-export interface NameBtnProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, BaseProps {
+export interface NameBtnProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, BaseLayoutProps {
 	color: keyof DefaultTheme['themeColor'];
 }
 
-interface NameButtonProps extends NameBtnProps {
+interface NameBtnStyleProps extends NameBtnProps {
 	isClicked: boolean;
 }
 
-const NameButton = styled.button<NameButtonProps>`
+const NameBtnStyle = styled.button<NameBtnStyleProps>`
 	${({ theme, color, isClicked }) => css`
         height: 25px;
 		padding : 5px 7px;
@@ -32,5 +32,5 @@ export default function NameBtn(props: NameBtnProps) {
 		isClicked ? setIsClicked(false) : setIsClicked(true)
 	}
 
-	return (<NameButton {...props} onClick={clickNameBtn} isClicked={isClicked}>{name}</NameButton>)
+	return (<NameBtnStyle {...props} onClick={clickNameBtn} isClicked={isClicked}>{name}</NameBtnStyle>)
 }

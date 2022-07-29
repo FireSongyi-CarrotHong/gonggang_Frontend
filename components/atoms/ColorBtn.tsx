@@ -2,21 +2,21 @@ import * as React from 'react';
 import { useState } from 'react';
 import styled, { css, DefaultTheme } from 'styled-components';
 
-export interface ThemeColorProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ColorBtnProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	color: keyof DefaultTheme['themeColor'];
 }
 
-interface ColorBtnProps extends ThemeColorProps {
+interface ColorBtnStyleProps extends ColorBtnProps {
 	isClicked: boolean;
 }
 
-const ColorBtn = styled.button<ColorBtnProps>`
+const ColorBtnStyle = styled.button<ColorBtnStyleProps>`
 	${({ theme, color, isClicked }) => css`
 		width: 50px;
 		height: 50px;
 		border-radius: 50%;
 		background-color: ${theme.themeColor[color]};
-		box-shadow: ${isClicked ? `inset 1.5px 1.5px 10px #424242` : ''};
+		box-shadow: ${isClicked ? `inset 1.5px 1.5px 10px #424242` : '0px 4px 4px rgba(0, 0, 0, 0.5)'};
 
 		&:hover {
 			transform: scale(1.1);
@@ -24,7 +24,7 @@ const ColorBtn = styled.button<ColorBtnProps>`
 	`}
 `
 
-export default function ThemeColor(props: ThemeColorProps) {
+export default function ColorBtn(props: ColorBtnProps) {
 	const [isClicked, setIsClicked] = useState(false);
 
 	const clickColorBtn = () => {
@@ -32,5 +32,5 @@ export default function ThemeColor(props: ThemeColorProps) {
 		isClicked ? setIsClicked(false) : setIsClicked(true)
 	}
 
-	return <ColorBtn {...props} onClick={clickColorBtn} isClicked={isClicked} />
+	return <ColorBtnStyle {...props} onClick={clickColorBtn} isClicked={isClicked} />
 }
