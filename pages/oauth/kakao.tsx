@@ -17,7 +17,7 @@ function kakao() {
 				}).then(res => {
 					if (!res.data.token) return;
 					localStorage.setItem('token', res.data.token);
-					router.push("/home/test");
+					router.push("/home/open");
 				})
 			}
 			sendCode(code);
