@@ -66,7 +66,7 @@ function login() {
 
 	return (
 		<EntranceContainer>
-			<Logo logoTheme={'white'} />
+			<Logo logoTheme='white' />
 			<TitleLeft>바쁜 대학생활,<br />만날 시간 찾기<br />힘들지 않으셨나요?</TitleLeft>
 			<TitleRight>클릭 한 번으로<br />만날 시간을<br />정할 수 있습니다</TitleRight>
 			<SubTitleWrapper>
