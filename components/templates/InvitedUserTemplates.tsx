@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useState } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
 import whaleIcon from '../../pages/images/whale_icon.png';
@@ -72,12 +71,12 @@ const PersonnelCount = styled.div`
 `
 
 const TextBtnWrapper = styled.div`
-margin-top: 120px;
+	margin-top: 120px;
 `
 
-export default function InvitedUserTemplates(props: InvitedUserInfoProps) {
+export default function InvitedUserTemplates({ userName, count, roomName, ...rest }: InvitedUserInfoProps) {
 	return (
-		<OpenContainer {...props}>
+		<OpenContainer {...rest}>
 			<Logo logoTheme='white' />
 			<WaleIconWrapper>
 				<Image src={whaleIcon} alt="공강 고래 아이콘" width={215} height={105} style={{ transform: `rotate(-15deg)` }} />
@@ -85,14 +84,14 @@ export default function InvitedUserTemplates(props: InvitedUserInfoProps) {
 			<Background>
 				<ContentContainer>
 					<InvitationLetter>반갑습니다!
-						<InvitedUser> 박송이</InvitedUser> 님<br />
+						<InvitedUser> {userName}</InvitedUser> 님<br />
 						초대된 약속에 함께하실 건가요?
 						<PersonnelWrapper>
 							<PersonnelCount>초대된 약속</PersonnelCount>
-							<PersonnelCount>인원수 2 / 10</PersonnelCount>
+							<PersonnelCount>인원수 {count} / 10</PersonnelCount>
 						</PersonnelWrapper>
 					</InvitationLetter>
-					<SubmittedInput>끝내주게 멋진 조별발표 과제</SubmittedInput>
+					<SubmittedInput>{roomName}</SubmittedInput>
 					<TextBtnWrapper>
 						<TextBtn btnType='bigDark' active>참여하기</TextBtn>
 					</TextBtnWrapper>
