@@ -6,8 +6,8 @@ export interface SubmittedInputProps extends BaseLayoutProps { }
 
 const SubmittedInputStyle = styled.div`
 	${({ theme }) => css`
-	    width: 350px;
-	    height: 20px;
+	    width: 400px;
+	    height: 70px;
 		padding: 25px 30px;
 		background-color: ${theme.color.gray100};
 		border-radius: 10px;

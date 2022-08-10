@@ -2,9 +2,9 @@ import * as React from 'react';
 import styled, { css } from 'styled-components';
 
 export interface TextBtnProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  btnType: 'small' | 'bigDark' | 'bigLight';
-  active: boolean;
+	extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+	btnType: 'small' | 'bigDark' | 'bigLight';
+	active: boolean;
 }
 
 const lightBtnStyled = css`
@@ -17,7 +17,7 @@ const lightBtnStyled = css`
 `;
 
 const darkOffBtnStyled = css`
-  background-color: ${({ theme }) => theme.color.veryPeri300};
+  background-color: ${({ theme }) => theme.color.veryPeri500};
   box-shadow: ${({ theme }) => theme.boxShadow.offButton.default};
 `;
 
@@ -31,19 +31,19 @@ const darkOnBtnStyled = css`
 `;
 
 const buttonStyled = ({
-  btnType,
-  active,
+	btnType,
+	active,
 }: {
-  btnType: TextBtnProps['btnType'];
-  active: TextBtnProps['active'];
+	btnType: TextBtnProps['btnType'];
+	active: TextBtnProps['active'];
 }) => {
-  switch (btnType) {
-    case 'bigLight':
-      return lightBtnStyled;
+	switch (btnType) {
+		case 'bigLight':
+			return lightBtnStyled;
 
-    default:
-      return active ? darkOnBtnStyled : darkOffBtnStyled;
-  }
+		default:
+			return active ? darkOnBtnStyled : darkOffBtnStyled;
+	}
 };
 
 const ButtonStyled = styled.button<TextBtnProps>`
@@ -58,5 +58,5 @@ const ButtonStyled = styled.button<TextBtnProps>`
 `;
 
 export default function TextBtn(props: TextBtnProps) {
-  return <ButtonStyled {...props} />;
+	return <ButtonStyled {...props} />;
 }
