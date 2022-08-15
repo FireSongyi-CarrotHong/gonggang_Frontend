@@ -17,6 +17,7 @@ export const GlobalStyle = createGlobalStyle`
         -webkit-text-size-adjust: none;
         font-family: -apple-system,BlinkMacSystemFont,helvetica,Apple SD Gothic Neo,sans-serif;
 		font-weight: 400;
+        font-size: 10px;
         font-display: fallback;
         -ms-overflow-style: none;
         scrollbar-width: none;
