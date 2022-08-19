@@ -4,19 +4,18 @@ import { ModalBackground, ModalStyled } from '../atoms/CommonStyled';
 
 export interface SmallModalProps extends BaseLayoutProps {
   active: boolean;
-  // eslint-disable-next-line no-undef
-  contentComponent: JSX.Element;
 }
 
 export default function ModalSmall({
   active,
-  contentComponent,
+  children,
+
   ...rest
 }: SmallModalProps) {
   return (
     <ModalBackground active={active}>
       <ModalStyled modalType="small" {...rest}>
-        {contentComponent}
+        {children}
       </ModalStyled>
     </ModalBackground>
   );

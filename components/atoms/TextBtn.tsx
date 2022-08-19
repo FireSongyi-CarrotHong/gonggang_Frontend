@@ -46,7 +46,7 @@ const buttonStyled = ({
   }
 };
 
-const ButtonStyled = styled.button<TextBtnProps>`
+export const ButtonStyled = styled.button<TextBtnProps>`
   width: ${({ btnType }) => (btnType === 'small' ? '120px' : '400px')};
   height: ${({ btnType }) => (btnType === 'small' ? '50px' : '60px')};
   padding: 13px;
