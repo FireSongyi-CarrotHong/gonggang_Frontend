@@ -6,6 +6,7 @@ import TextInput from '../atoms/TextInput';
 import TextBtn from '../atoms/TextBtn';
 import ColorBtnPalette from '../moleculses/ColorBtnPalette';
 import BackgroundTemplates from './BackgroundTemplates';
+import apiClient from '../../libs/apis/apiClient';
 
 export interface InfoInputProps extends BaseLayoutProps {
 	InfoInputType: 'roomName' | 'themeColor'
@@ -61,16 +62,25 @@ const TextBtnWrapper = styled.div`
 `
 
 export default function CreateUserInfoTemplates({ InfoInputType, ...rest }: InfoInputProps) {
-	const { children: roomName } = rest;
+	const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
 	const [duplicate, setDuplicate] = useState(false);
 	const [inputValue, setInputValue] = useState('');
 	const [colorPage, setColorPage] = useState(false);
 
-	const checkDuplicate = () => {
-		// eslint-disable-next-line no-unused-expressions
-		// duplicate ? setDuplicate(false) : setDuplicate(true);
-		setColorPage(true);
+	const checkDuplicate = async () => {
+		try {
+			const res = await apiClient.post(`/rooms/validate`, { room_name: inputValue });
+			if (res.data.message === 'OK') {
+				sessionStorage.setItem("room_name", inputValue);
+				setColorPage(true);
+			} else {
+				setDuplicate(true);
+			}
+			if (res.status !== 200) throw new Error('RoomName Validate failed');
+		} catch (err: any) {
+			throw new Error(err.message);
+		}
 	}
 
 	const checkValue = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,12 +91,23 @@ export default function CreateUserInfoTemplates({ InfoInputType, ...rest }: Info
 		setColorPage(false);
 	}
 
-	const postUserInfo = () => {
-		alert('유저 정보 전송');
+	const postUserInfo = async () => {
+		try {
+			if (typeof token === 'string') {
+				const resRoomName = await apiClient.post(`/rooms/`, { room_name: inputValue }, { headers: { 'Content-Type': 'application/json', token } });
+
+				const resThemeColor = await apiClient.patch('/users/color', { color: sessionStorage.getItem('theme_color') }, { headers: { 'Content-Type': 'application/json', token } });
+
+				if (resRoomName.status !== 200) throw new Error('Create RoomName failed');
+				if (resThemeColor.status !== 200) throw new Error('Create ThemeColor failed');
+			}
+		} catch (err: any) {
+			throw new Error(err.message);
+		}
 	}
 
 	return (
-		<BackgroundTemplates bgType='cloudBg' modal>
+		<BackgroundTemplates bgType='cloudBg' modal {...rest}>
 			<ProgressText>
 				진행도 {(InfoInputType === 'roomName' && !colorPage) ? 1 : 2} / 2
 			</ProgressText>

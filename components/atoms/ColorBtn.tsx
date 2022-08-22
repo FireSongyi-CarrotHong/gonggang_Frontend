@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled, { css, DefaultTheme } from 'styled-components';
 
 export interface ColorBtnProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -27,11 +27,16 @@ const ColorBtnStyle = styled.input<ColorBtnProps>`
 `
 
 export default function ColorBtn({ colorName, ...props }: ColorBtnProps) {
-	const [clickedColor, setClickedColor] = useState('왜이래');
+	const [clickedColor, setClickedColor] = useState('');
 
 	const clickColorBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setClickedColor(e.target.value);
 	}
+
+	useEffect(() => {
+		sessionStorage.setItem("theme_color", clickedColor);
+	}, [clickedColor])
+
 
 	return <ColorBtnStyle type='radio' name='colorRadioBtn' value={colorName} onChange={clickColorBtn} colorName={colorName} {...props} />
 }
