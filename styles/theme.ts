@@ -18,6 +18,7 @@ const color = {
 
   red: '#FF8A80',
   pink: '#FFCDD2',
+  lightYellow: '#FDFFF3',
 } as const;
 
 const themeColor = {

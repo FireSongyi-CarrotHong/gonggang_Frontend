@@ -6,6 +6,10 @@ export const GlobalStyle = createGlobalStyle`
     * {
         box-sizing: border-box;
     }
+	body {
+		display: flex;
+		justify-content: center;
+	}
     :focus {
         outline: none;
         border: none;
