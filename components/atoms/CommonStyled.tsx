@@ -16,6 +16,7 @@ const ModalBackground = styled.div<Pick<ModalProps, 'active'>>`
 
   position: fixed;
   top: 0;
+  right: 0;
   justify-content: center;
   width: 100%;
   height: 100%;
