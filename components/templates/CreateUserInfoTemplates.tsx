@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { BaseLayoutProps } from '../../shared/const';
 import TextInput from '../atoms/TextInput';
@@ -62,6 +63,7 @@ const TextBtnWrapper = styled.div`
 `
 
 export default function CreateUserInfoTemplates({ InfoInputType, ...rest }: InfoInputProps) {
+	const router = useRouter();
 	const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
 	const [duplicate, setDuplicate] = useState(false);
@@ -97,6 +99,9 @@ export default function CreateUserInfoTemplates({ InfoInputType, ...rest }: Info
 				const resRoomName = await apiClient.post(`/rooms/`, { room_name: inputValue }, { headers: { 'Content-Type': 'application/json', token } });
 
 				const resThemeColor = await apiClient.patch('/users/color', { color: sessionStorage.getItem('theme_color') }, { headers: { 'Content-Type': 'application/json', token } });
+
+				const resRoomId = resRoomName.data.room_id;
+				router.push("/home/roomopen");
 
 				if (resRoomName.status !== 200) throw new Error('Create RoomName failed');
 				if (resThemeColor.status !== 200) throw new Error('Create ThemeColor failed');
