@@ -70,9 +70,12 @@ export default function CreateUserInfoTemplates({ InfoInputType, ...rest }: Info
 	const [inputValue, setInputValue] = useState('');
 	const [colorPage, setColorPage] = useState(false);
 
+	// 스케쥴 이름 중복 체크 API
 	const checkDuplicate = async () => {
 		try {
-			const res = await apiClient.post(`/rooms/validate`, { room_name: inputValue });
+			const res = await apiClient.post(`/rooms/validate`,
+				{ room_name: inputValue }
+			);
 			if (res.data.message === 'OK') {
 				sessionStorage.setItem("room_name", inputValue);
 				setColorPage(true);
@@ -93,15 +96,27 @@ export default function CreateUserInfoTemplates({ InfoInputType, ...rest }: Info
 		setColorPage(false);
 	}
 
+	// userInfo (room_name, theme_color) 전송 API
 	const postUserInfo = async () => {
 		try {
 			if (typeof token === 'string') {
-				const resRoomName = await apiClient.post(`/rooms/`, { room_name: inputValue }, { headers: { 'Content-Type': 'application/json', token } });
+				const resRoomName = await apiClient.post(`/rooms/`,
+					{ room_name: inputValue },
+					{
+						headers: { 'Content-Type': 'application/json', token }
+					}
+				);
 
-				const resThemeColor = await apiClient.patch('/users/color', { color: sessionStorage.getItem('theme_color') }, { headers: { 'Content-Type': 'application/json', token } });
+				const resThemeColor = await apiClient.patch('/users/color',
+					{ color: sessionStorage.getItem('theme_color') },
+					{
+						headers: { 'Content-Type': 'application/json', token }
+					}
+				);
 
 				const resRoomId = resRoomName.data.room_id;
-				router.push("/home/roomopen");
+
+				router.push(`/home/roomopen/${resRoomId}`);
 
 				if (resRoomName.status !== 200) throw new Error('Create RoomName failed');
 				if (resThemeColor.status !== 200) throw new Error('Create ThemeColor failed');
@@ -121,15 +136,7 @@ export default function CreateUserInfoTemplates({ InfoInputType, ...rest }: Info
 			</ProgressBg>
 
 			<Title>{colorPage ? `나를 표현하는 색은?` : `무슨 약속인가요?`}</Title>
-			{colorPage ? (
-				<>
-					<ColorBtnPalette />
-					<TextBtnWrapper>
-						<TextBtn btnType='small' active onClick={goToBack}>이전</TextBtn>
-						<TextBtn btnType='small' active onClick={postUserInfo}>다음</TextBtn>
-					</TextBtnWrapper>
-				</>
-			) : (
+			{!colorPage ? (
 				<>
 					<ChangeRoomName>스케줄 이름은 언제든 수정할 수 있습니다.</ChangeRoomName>
 					<TextInput duplicate={duplicate} onChange={checkValue} />
@@ -137,7 +144,17 @@ export default function CreateUserInfoTemplates({ InfoInputType, ...rest }: Info
 						<TextBtn btnType='small' active={false}>이전</TextBtn>
 						<TextBtn btnType='small' active onClick={checkDuplicate}>다음</TextBtn>
 					</TextBtnWrapper>
-				</>)}
+				</>
+			) : (
+				<>
+					<ColorBtnPalette />
+					<TextBtnWrapper>
+						<TextBtn btnType='small' active onClick={goToBack}>이전</TextBtn>
+						<TextBtn btnType='small' active onClick={postUserInfo}>다음</TextBtn>
+					</TextBtnWrapper>
+				</>
+			)
+			}
 		</BackgroundTemplates>
 
 	)
