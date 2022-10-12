@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import Image from 'next/image';
-import whaleIcon from '../../pages/images/whale_icon.png';
-import Logo from '../atoms/Logo';
 import { BaseLayoutProps } from '../../shared/const';
 import TextInput from '../atoms/TextInput';
 import TextBtn from '../atoms/TextBtn';
 import ColorBtnPalette from '../moleculses/ColorBtnPalette';
+import BackgroundTemplates from './BackgroundTemplates';
+import apiClient from '../../libs/apis/apiClient';
 
 export interface InfoInputProps extends BaseLayoutProps {
 	InfoInputType: 'roomName' | 'themeColor'
@@ -16,37 +16,6 @@ export interface InfoInputProps extends BaseLayoutProps {
 interface roomNameStyleProps {
 	colorPage: boolean
 }
-
-const OpenContainer = styled.main`
-    position: relative;
-	width: 480px;
-	height: 100vh;
-	background-image: url('/room_open_1.jpeg');
-	background-size : cover;
-	background-position : center;
-	mix-blend-mode: normal;
-`
-
-const Background = styled.div`
-    width: 395px;
-	height: 625px;
-	position: absolute;
-	top:90px;
-	left: 43px;
-	background: rgba(0, 0, 0, 0.5);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 20px;
-`
-
-const ContentContainer = styled.div`
-	display	: flex;
-	flex-direction: column;
-	align-items: center;
-`
-
-const WaleIconWrapper = styled.div`
-	margin: 30px 0 10px 0;
-`
 
 const ProgressText = styled.div`
 	padding: 0 15px 15px 0;
@@ -94,16 +63,29 @@ const TextBtnWrapper = styled.div`
 `
 
 export default function CreateUserInfoTemplates({ InfoInputType, ...rest }: InfoInputProps) {
-	const { children: roomName } = rest;
+	const router = useRouter();
+	const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
 	const [duplicate, setDuplicate] = useState(false);
 	const [inputValue, setInputValue] = useState('');
 	const [colorPage, setColorPage] = useState(false);
 
-	const checkDuplicate = () => {
-		// eslint-disable-next-line no-unused-expressions
-		// duplicate ? setDuplicate(false) : setDuplicate(true);
-		setColorPage(true);
+	// 스케쥴 이름 중복 체크 API
+	const checkDuplicate = async () => {
+		try {
+			const res = await apiClient.post(`/rooms/validate`,
+				{ room_name: inputValue }
+			);
+			if (res.data.message === 'OK') {
+				sessionStorage.setItem("room_name", inputValue);
+				setColorPage(true);
+			} else {
+				setDuplicate(true);
+			}
+			if (res.status !== 200) throw new Error('RoomName Validate failed');
+		} catch (err: any) {
+			throw new Error(err.message);
+		}
 	}
 
 	const checkValue = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -114,45 +96,66 @@ export default function CreateUserInfoTemplates({ InfoInputType, ...rest }: Info
 		setColorPage(false);
 	}
 
-	const postUserInfo = () => {
-		alert('유저 정보 전송');
+	// userInfo (room_name, theme_color) 전송 API
+	const postUserInfo = async () => {
+		try {
+			if (typeof token === 'string') {
+				const resRoomName = await apiClient.post(`/rooms/`,
+					{ room_name: inputValue },
+					{
+						headers: { 'Content-Type': 'application/json', token }
+					}
+				);
+
+				const resThemeColor = await apiClient.patch('/users/color',
+					{ color: sessionStorage.getItem('theme_color') },
+					{
+						headers: { 'Content-Type': 'application/json', token }
+					}
+				);
+
+				const resRoomId = resRoomName.data.room_id;
+
+				router.push(`/home/roomopen/${resRoomId}`);
+
+				if (resRoomName.status !== 200) throw new Error('Create RoomName failed');
+				if (resThemeColor.status !== 200) throw new Error('Create ThemeColor failed');
+			}
+		} catch (err: any) {
+			throw new Error(err.message);
+		}
 	}
 
 	return (
-		<OpenContainer {...rest}>
-			<Logo logoTheme='white' />
-			<Background >
-				<ContentContainer>
-					<WaleIconWrapper>
-						<Image src={whaleIcon} alt="공강 고래 아이콘" width={160} height={80} style={{ transform: `rotate(-10deg)` }} />
-					</WaleIconWrapper>
-					<ProgressText>
-						진행도 {(InfoInputType === 'roomName' && !colorPage) ? 1 : 2} / 2
-					</ProgressText>
-					<ProgressBg >
-						<ProgrssBar colorPage={colorPage} />
-					</ProgressBg>
+		<BackgroundTemplates bgType='cloudBg' modal {...rest}>
+			<ProgressText>
+				진행도 {(InfoInputType === 'roomName' && !colorPage) ? 1 : 2} / 2
+			</ProgressText>
+			<ProgressBg >
+				<ProgrssBar colorPage={colorPage} />
+			</ProgressBg>
 
-					<Title>{colorPage ? `나를 표현하는 색은?` : `무슨 약속인가요?`}</Title>
-					{colorPage ? (
-						<>
-							<ColorBtnPalette />
-							<TextBtnWrapper>
-								<TextBtn btnType='small' active onClick={goToBack}>이전</TextBtn>
-								<TextBtn btnType='small' active onClick={postUserInfo}>다음</TextBtn>
-							</TextBtnWrapper>
-						</>
-					) : (
-						<>
-							<ChangeRoomName>스케줄 이름은 언제든 수정할 수 있습니다.</ChangeRoomName>
-							<TextInput duplicate={duplicate} onChange={checkValue} />
-							<TextBtnWrapper>
-								<TextBtn btnType='small' active={false}>이전</TextBtn>
-								<TextBtn btnType='small' active onClick={checkDuplicate}>다음</TextBtn>
-							</TextBtnWrapper>
-						</>)}
-				</ContentContainer>
-			</Background>
-		</OpenContainer>
+			<Title>{colorPage ? `나를 표현하는 색은?` : `무슨 약속인가요?`}</Title>
+			{!colorPage ? (
+				<>
+					<ChangeRoomName>스케줄 이름은 언제든 수정할 수 있습니다.</ChangeRoomName>
+					<TextInput duplicate={duplicate} onChange={checkValue} />
+					<TextBtnWrapper>
+						<TextBtn btnType='small' active={false}>이전</TextBtn>
+						<TextBtn btnType='small' active onClick={checkDuplicate}>다음</TextBtn>
+					</TextBtnWrapper>
+				</>
+			) : (
+				<>
+					<ColorBtnPalette />
+					<TextBtnWrapper>
+						<TextBtn btnType='small' active onClick={goToBack}>이전</TextBtn>
+						<TextBtn btnType='small' active onClick={postUserInfo}>다음</TextBtn>
+					</TextBtnWrapper>
+				</>
+			)
+			}
+		</BackgroundTemplates>
+
 	)
 }
